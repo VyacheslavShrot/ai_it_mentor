@@ -4,5 +4,5 @@ core_router = APIRouter()
 
 
 @core_router.post("/create/response")
-def create_response():
+async def create_response():
     ...
