@@ -3,7 +3,7 @@ import logging
 from environs import Env
 from fastapi import FastAPI
 
-from apis.core import CoreApis
+from apis.core.core import CoreApis
 
 env = Env()
 env.read_env('.env')
