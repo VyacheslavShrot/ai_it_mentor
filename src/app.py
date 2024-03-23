@@ -3,7 +3,7 @@ import logging
 from environs import Env
 from fastapi import FastAPI
 
-from apis.core import core_router
+from apis.core import CoreApis
 
 env = Env()
 env.read_env('.env')
@@ -21,4 +21,6 @@ app = FastAPI(
 async def app_status():
     return {"status": "success"}
 
-app.include_router(core_router)
+
+core_apis = CoreApis()
+app.include_router(core_apis.router)

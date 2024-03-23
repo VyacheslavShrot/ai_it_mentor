@@ -1,8 +1,11 @@
 from fastapi import APIRouter
 
-core_router = APIRouter()
 
+class CoreApis:
+    def __init__(self):
+        self.router = APIRouter()
+        self.router.add_api_route("/create/response", self.create_response, methods=["POST"])
 
-@core_router.post("/create/response")
-async def create_response():
-    ...
+    @staticmethod
+    async def create_response():
+        return {"success": True}
