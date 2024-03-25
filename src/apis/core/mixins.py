@@ -7,7 +7,6 @@ import openai
 
 class CoreApiMixin:
     logging.basicConfig(level=logging.INFO)
-
     logger = logging.getLogger(__name__)
 
     system_prompt = f'''
@@ -92,7 +91,7 @@ class CoreApiMixin:
         return openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
-            temperature=1.1,
+            temperature=1.4,
             n=1
         ).choices[0].message.content
 
@@ -103,3 +102,33 @@ class CoreApiMixin:
 
         with open(file_path, "w") as file:
             file.write(response)
+
+    async def continue_create_completion(self, roadmap, continue_user_input_prompt: str) -> str:
+        continue_system_prompt = f'''
+        {self.system_prompt}
+        
+        You will receive an already made plan and make a new roadmap, 
+        based on the fact that the user has already completed the previous plan.
+            '''
+
+        messages = [
+            {
+                "role": "system", "content": continue_system_prompt
+            },
+            {
+                "role": "user", "content": roadmap
+            },
+            {
+                "role": "assistant", "content": "All right, I saw your previous roadmap, what do you want next?"
+            },
+            {
+                "role": "user", "content": continue_user_input_prompt
+            }
+        ]
+        return openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            temperature=1.4,
+            n=1,
+            max_tokens=3000
+        ).choices[0].message.content
