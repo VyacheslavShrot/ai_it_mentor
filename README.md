@@ -1,2 +1,1 @@
-# ai_it_mentor
-README
+# AI IT Mentor

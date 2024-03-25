@@ -1,4 +1,15 @@
+import datetime
+import logging
+import os
+
+import openai
+
+
 class CoreApiMixin:
+    logging.basicConfig(level=logging.INFO)
+
+    logger = logging.getLogger(__name__)
+
     system_prompt = f'''
     You're an experienced mentor in IT and have already given a plan and steps on the way in many people's careers. 
     You will be written on making a roadmap in any direction of IT and you have to describe everything in a structured and clear way.
@@ -62,3 +73,33 @@ class CoreApiMixin:
     Remember to consistently practice coding, build projects, and seek feedback to reinforce your learning. 
     Additionally, explore online communities, forums, and participate in coding challenges to enhance your skills further.
             '''
+
+    async def create_completion(self, user_input_prompt: str) -> str:
+        messages = [
+            {
+                "role": "system", "content": self.system_prompt
+            },
+            {
+                "role": "user", "content": self.user_prompt_example
+            },
+            {
+                "role": "assistant", "content": self.assistant_prompt_example
+            },
+            {
+                "role": "user", "content": user_input_prompt
+            }
+        ]
+        return openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=messages,
+            temperature=1.1,
+            n=1
+        ).choices[0].message.content
+
+    @staticmethod
+    async def create_file(response, path):
+        timestamp = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M')
+        file_path = os.path.join(path, f"ITRoadmap_{timestamp}.txt")
+
+        with open(file_path, "w") as file:
+            file.write(response)

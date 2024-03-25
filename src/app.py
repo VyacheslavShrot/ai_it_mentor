@@ -9,7 +9,6 @@ env = Env()
 env.read_env('.env')
 
 logging.basicConfig(level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
