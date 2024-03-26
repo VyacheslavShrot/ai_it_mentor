@@ -95,3 +95,7 @@ cd src
 python3 manage.py
 ```
 
+### POSTMAN DOC
+
+- https://documenter.getpostman.com/view/26500283/2sA35D63gG - Link on Postman Documentation
+  - This documentation describes the possible parameters and their values
