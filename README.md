@@ -2,7 +2,7 @@
 
 ### STRUCTURE
 
-- FastAPI project with endpoints 
+- Asynchronous FastAPI project with endpoints 
 that can be used to upload a roadmap file generated from a gpt model to the computer
 
 
